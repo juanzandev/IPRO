@@ -1,0 +1,72 @@
+body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+}
+
+header {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+}
+
+#menu-toggle {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 10px;
+}
+
+#sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 250px;
+        height: 100vh;
+        background-color: #222;
+        padding-top: 20px;
+        display: block;
+}
+
+.hidden {
+        display: none;
+}
+
+nav ul {
+        list-style: none;
+        padding: 0;
+}
+
+nav ul li {
+        padding: 10px;
+}
+
+nav ul li a {
+        color: white;
+        text-decoration: none;
+}
+
+#login-signup {
+        margin: 50px auto;
+        text-align: center;
+}
+
+form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 300px;
+        margin: auto;
+}
+
+input, button {
+        padding: 10px;
+        font-size: 16px;
+        
+}
+
+</style>
