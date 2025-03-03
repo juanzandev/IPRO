@@ -1,9 +1,9 @@
 import imaplib
 
 # Replace these with your credentials.
-USERNAME = "juanzanguitu@gmail.com"
+USERNAME = ""
 # For Gmail, you might need to use an App Password.
-PASSWORD = "nrqa nwdl pllt ujaa"
+PASSWORD = ""
 
 # Connect to Gmail's IMAP server
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
