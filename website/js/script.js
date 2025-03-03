@@ -3,7 +3,7 @@
     document.getElementById('sidebar').classList.toggle('hidden');
   });
 
-  document.getElementById('auth-form').addEventListener('submit', function(event)) {
+  document.getElementById('auth-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
