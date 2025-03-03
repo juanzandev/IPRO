@@ -1,2 +1,4 @@
-# IPRO - Mail Scaper
+# IPRO - Team 4
+
+MailScaper
 Just a college project.
