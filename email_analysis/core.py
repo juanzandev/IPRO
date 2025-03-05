@@ -1,5 +1,6 @@
 from email.utils import parseaddr
 import socket
+import requests
 
 
 # Main phishing check function
@@ -28,7 +29,10 @@ def is_phishing(dict_email, dict_tests, attachments=None):
     # Functions Calls
     # -- is_reputable(): checks if sender email has reputable domain from database. Checks both a scammer email list and a reputable domain table
     if sender_info != None and dict_tests['sender_info'] == 1:
-        is_phishing += is_reputable(sender_info)
+        try:
+            is_phishing += is_reputable(sender_info)
+        except TypeError as e:
+            print("Did not receive an int as response at is_reputable")
 
     return is_phishing
 
