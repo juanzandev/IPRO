@@ -1,61 +1,47 @@
-// Debug
 console.log('Content script loaded');
-// Wait for Gmail to load
-window.addEventListener('load', function () {
-    // Debug
-    console.log('Page loaded, starting observer');
 
-    const observer = new MutationObserver(() => {
-        // Generic and reliable?? Hopefully
-        const emailView = document.querySelector('div[role="dialog"], .nH.bkK');
+// Hold the timeout to prevent multple triggers
+let debounceTimeout = null;
 
-        if (emailView) {
-            console.log('Email view detect:', emailView);
+// Observe changes in Gmail's email view
+const observer = new MutationObserver(() => {
+    const emailView = document.querySelector('div[role="dialog"], .nH.bkK'); // Detects opened email
 
-            // Add a click event for opening an email
-            emailView.addEventListener('click', function () {
-                console.log('Email clicked!');
-            
+    if (emailView) {
+        console.log('Email view detected:', emailView);
 
-                // Delay to allow dynamic loading
-                setTimeout(() => {
-                    const subjectElement = emailView.querySelector('.nH'); // Potention: .zA.yO
-                    const bodyElement = emailView.querySelector('.Bk');
+        // Clear the existing timeout to prevent multiple triggers
+        clearTimeout(debounceTimeout);
 
-                    const subject = subjectElement ? subjectElement.innerText : "No subject found";
-                    const body = bodyElement ? bodyElement.innerText : "No body found";
+        // Set a timeout to ensure content is fully loaded and prevent rapid repeated calls
+        debounceTimeout = setTimeout(() => {
+            const subjectElement = emailView.querySelector('.hP'); // Subject selector
+            const bodyElement = emailView.querySelector('.ii.gt'); // Body selector
+            const senderNameElement = emailView.querySelector('.gD') // Sender name
+            const senderEmailElement = senderNameElement ? senderNameElement.getAttribute('email') : null; // Sender email
 
-                    // Debug
-                    console.log('Email clicked!');
-                    console.log('Subject:', subject);
-                    console.log('Body:', body.substring(0, 100) + '...'); //display first 100 characters
+            const subject = subjectElement ? subjectElement.innerText : "No subject found";
+            const body = bodyElement ? bodyElement.innerText : "No body found";
+            const senderName = senderNameElement ? senderNameElement.innerText : "No sender name found";
+            const senderEmail = senderEmailElement ? senderEmailElement : "No sender email found";
 
-                    // Send email data to the background script
-                    chrome.runtime.sendMessage({
-                        type: 'emailContent',
-                        subject: subject,
-                        body: body
-                    });
+            console.log('Sending email to server:', subject);
 
-                    // Mark email as processed to prevent multiple POSTs
-                    emailView.dataset.processed = true;
-
-                }, 500) //500 ms delay
+            // Send email data to the background script (stateless approach)
+            chrome.runtime.sendMessage({
+                type: 'emailContent',
+                subject: subject,
+                body: body,
+                senderName: senderName,
+                senderEmail: senderEmail
             });
 
-            // Reset the processed state when the email is closed
-            emailView.addEventListener('transitionend', function() {
-                if (emailView.computedStyleMap.display === "none") {
-                    console.log('Email dialog closed, resetting processed state.');
-                    delete emailView.dataset.processed; // Reset processed state when email is closed
-                }
-            })
-        }
-    });
+        }, 500); // Delay ensures content is fully loaded
+    }
+});
 
-    // Observe changes in Gmail's DOM
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
+// Observe Gmail's DOM for email view changes
+observer.observe(document.body, {
+    childList: true,
+    subtree: true
 });
