@@ -26,7 +26,7 @@ def receive_email():
     # Dict in format for is_phishing
     dict_email = {'subject':subject, 
                   'preheader_text':None, 
-                  'sender_info':senderEmail, 
+                  'sender_info':None, 
                   'recipient_info':None, 
                   'date_time':None,
                   'body':body, 
