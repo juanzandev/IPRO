@@ -126,7 +126,7 @@ def is_urgent(subject, body, footer):
     return 1
 
 
-test_dict_email = {'subject': None, 'preheader_text': None, 'sender_info': 'hunterleaguecanal@gmail.com',
+test_dict_email = {'subject': None, 'preheader_text': None, 'sender_info': 'ianchob@gmail.com',
                    'recipient_info': None, 'date_time': None, 'body': None, 'footer': None}
 test_dict_tests = {'sender_info': 1}
 
